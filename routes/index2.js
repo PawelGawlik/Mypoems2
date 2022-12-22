@@ -5,6 +5,15 @@ const mongo = require('mongodb');
 const client = new mongo.MongoClient(config.db, { useNewUrlParser: true });
 const db = client.db('poetry');
 const users = db.collection('users');
+const counter = db.collection('counter');
+let accountArr = [];
+/*router.get('/', async (req, res, next) => {
+    if (!req.secure) {
+        res.redirect(`https://${req.hostname}/`);
+        return;
+    }
+    next();
+})*/
 router.post('/reg', async (req, res) => {
     await client.connect();
     const userArray = await users.find({
@@ -12,7 +21,9 @@ router.post('/reg', async (req, res) => {
         password: req.body.pwd
     }).toArray();
     if (userArray.length) {
-        console.log("błąd")
+        await client.close();
+        res.redirect('/regerror.html');
+        return;
     } else {
         const usersNum = await users.find().toArray();
         await users.insertOne({
@@ -34,13 +45,51 @@ router.post('/reg', async (req, res) => {
     res.redirect('/log.html');
     client.close();
 })
-/*router.post('/log.html', (req, res) => {
-    if (req.body.login === config.login && req.body.password === config.password) {
-        coll = 'main1';
-        req.session.poetry = 1;
-        res.redirect('/admin.html');
-        return;
+let poetsArr2 = [];
+router.post('/search', async (req, res) => {
+    const reg = new RegExp(req.body.search.trim(), 'i');
+    await client.connect();
+    const poetsArr = await users.find().toArray();
+    poetsArr2 = poetsArr.filter((el) => {
+        return reg.test(el.poet);
+    })
+    res.redirect('back');
+    client.close();
+})
+router.get('/search', (req, res) => {
+    res.json(poetsArr2);
+})
+router.get('/page/:id', async (req, res) => {
+    await client.connect();
+    const poetArr = await users.find({ id: Number(req.params.id) }).toArray();
+    client.close();
+    res.json(poetArr);
+})
+router.get('/users', async (req, res) => {
+    await client.connect();
+    const poetsArr = await users.find().toArray();
+    const poets = poetsArr.length;
+    client.close();
+    res.json(poets);
+})
+router.post('/mypwd', async (req, res) => {
+    await client.connect();
+    if (req.body.mymail !== "") {
+        accountArr = await users.find({ mail: req.body.mymail }).toArray();
     }
-    res.redirect('/error.html');
-})*/
+    client.close();
+    if (req.body.mymail === "") {
+        accountArr = [];
+    }
+    res.redirect('/account.html');
+})
+router.get('/mypwd', async (req, res) => {
+    res.json(accountArr);
+})
+router.get('/account.html', async (req, res, next) => {
+    if (req.get('Referer') !== '/mypwd') {
+        accountArr = [];
+    }
+    next();
+})
 module.exports = router;
