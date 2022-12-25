@@ -63,7 +63,13 @@ router.get('/page/:id', async (req, res) => {
     await client.connect();
     const poetArr = await users.find({ id: Number(req.params.id) }).toArray();
     client.close();
-    res.json(poetArr);
+    const poetArr2 = poetArr.map((el) => {
+        return {
+            id: el.id,
+            poet: el.poet
+        }
+    })
+    res.json(poetArr2);
 })
 router.get('/users', async (req, res) => {
     await client.connect();
@@ -84,10 +90,13 @@ router.post('/mypwd', async (req, res) => {
     res.redirect('/account.html');
 })
 router.get('/mypwd', async (req, res) => {
+    if (req.get('Referer') !== `http://${req.hostname}:3000/account.html`) {
+        accountArr = [];
+    }
     res.json(accountArr);
 })
 router.get('/account.html', async (req, res, next) => {
-    if (req.get('Referer') !== '/mypwd') {
+    if (req.get('Referer') !== `http://${req.hostname}:3000/`) {
         accountArr = [];
     }
     next();

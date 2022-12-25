@@ -6,14 +6,20 @@ const adv = document.querySelector('.advertisement');
 const a = document.querySelector('.advertisement>a');
 const a2 = document.querySelectorAll('a');
 const off = document.querySelector('.off');
+const footer = document.querySelector('footer');
 adv.style.top = (window.innerHeight - 40) + 'px';
-const links = ["https://tmlead.pl/redirect/190176_2282", "https://tmlead.pl/redirect/190176_2289", "https://tmlead.pl/redirect/190176_2265", "https://tmlead.pl/redirect/190176_2262"];
-const desc = ["TaniaKsiążka.pl - księgarnia online", "Deichmann.com - sklep z butami online", "Lidl Polska – Bezpieczne zakupy w lidlowych cenach", "Renee.pl - Sklep z Modą"];
-const param = Math.floor(Math.random() * 4);
+const links = ["https://tmlead.pl/redirect/190176_2282", "https://tmlead.pl/redirect/190176_2289", "https://tmlead.pl/redirect/190176_2265", "https://tmlead.pl/redirect/190176_2262", "https://pawgaw.oferty-kredytowe.pl"];
+const desc = ["TaniaKsiążka.pl - księgarnia online", "Deichmann.com - sklep z butami online", "Lidl Polska – Bezpieczne zakupy w lidlowych cenach", "Renee.pl - Sklep z Modą", "Konta, pożyczki i inne"];
+const param = Math.floor(Math.random() * 5);
 const href = links[param];
 a.setAttribute('href', href);
 a.innerText = desc[param];
 const path = location.pathname.split('/')[2];
+fetch(`/page/${path}`).then((res) => {
+    return res.json();
+}).then((poetArr) => {
+    footer.innerText = `Autor: ${poetArr[0].poet}`;
+})
 fetch(`/visits/${path}`).then((res) => {
     return res.json();
 }).then((visitors) => {
