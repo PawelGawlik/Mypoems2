@@ -137,6 +137,12 @@ button {
     justify-content: space-evenly;
 }
 
+.statement {
+    position: absolute;
+    background-color: aliceblue;
+    z-index: 2;
+}
+
 
 @media all and (max-width: 550px) {
     body {
