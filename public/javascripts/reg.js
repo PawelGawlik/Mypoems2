@@ -6,6 +6,7 @@ const a1 = document.querySelectorAll('a');
 const adv = document.querySelector('.advertisement');
 const a2 = document.querySelector('.advertisement>a');
 const off = document.querySelector('.off');
+const span = document.querySelector('span');
 adv.style.top = (window.innerHeight - 40) + 'px';
 const links = ["https://tmlead.pl/redirect/190176_2282", "https://tmlead.pl/redirect/190176_2289", "https://tmlead.pl/redirect/190176_2265", "https://tmlead.pl/redirect/190176_2262", "https://pawgaw.oferty-kredytowe.pl"];
 const desc = ["TaniaKsiążka.pl - księgarnia online", "Deichmann.com - sklep z butami online", "Lidl Polska – Bezpieczne zakupy w lidlowych cenach", "Renee.pl - Sklep z Modą", "Konta, pożyczki i inne"];
@@ -18,14 +19,20 @@ off.onclick = () => {
 }
 fetch('/users').then((res) => {
     return res.json();
-}).then((poets) => {
-    if (poets) {
-        const param = Math.ceil(Math.random() * poets);
+}).then((poetsId) => {
+    if (poetsId.length) {
+        const param = Math.ceil(Math.random() * poetsId[poetsId.length - 1]);
+        span.innerText = `Liczba użytkowników: ${poetsId.length}`;
         fetch(`/page/${param}`).then((res) => {
             return res.json();
         }).then((poetArr) => {
-            a1[1].innerText = poetArr[0].poet;
-            a1[1].setAttribute('href', `/index2.html/${poetArr[0].id}`);
+            if (poetArr.length) {
+                a1[1].innerText = poetArr[0].poet;
+                a1[1].setAttribute('href', `/index2.html/${poetArr[0].id}`);
+            } else {
+                a1[1].innerText = 'Paweł Gawlik';
+                a1[1].setAttribute('href', `/index2.html/1`);
+            }
         })
     } else {
         a1[1].innerText = 'Brak strony do wyświetlenia';

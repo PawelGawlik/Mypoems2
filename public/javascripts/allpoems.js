@@ -1,8 +1,9 @@
 const body = document.querySelector("body");
-const a = document.querySelector('a');
+const a = document.querySelectorAll('a');
 let i = 0;
 const path = location.pathname.split('/')[2];
-a.setAttribute('href', `/page2.html/${path}`);
+a[0].setAttribute('href', `/page2.html/${path}`);
+a[1].setAttribute('href', `/index2.html/${path}`);
 fetch(`/poems/${path}`).then((res) => {
     return res.json();
 }).then((poemArr) => {

@@ -6,42 +6,47 @@
     <meta charset="utf-8">
     <meta name="author" content="Paweł Gawlik">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=yes">
-    <link rel="stylesheet" href="./stylesheets/main.css">
-    <link rel="stylesheet" href="./stylesheets/page2.css">
+    <link rel="stylesheet" href="./stylesheets/reg.css">
     <script src="./javascripts/reg.js" defer></script>
 </head>
 
 <body class="otherbody">
-    <form action="/reg" method="post">
+    <h1>Strona dla poetów</h1>
+    <h3>Zaprezentuj swoje wiersze. Zarejestruj się za darmo!</h3>
+    <form class="reg" action="/reg" method="post">
         <label>Zarejestruj się:</label>
         <br>
-        <input name="poet">
+        Imię i nazwisko/pseudonim: <input name="poet">
         <br>
-        <input name="log">
+        Login: <input name="log">
         <br>
-        <input type="password" name="pwd">
+        Hasło: <input type="password" name="pwd">
         <br>
-        <input name="pwd2">
+        Powtórz hasło: <input type="password" name="pwd2">
         <br>
-        <input name="mail">
+        Email: <input type="email" name="mail">
+        Możesz nie podawać maila! Potrzebny jest tylko do odzyskania hasła.
+        <br>
         <button>Wyślij</button>
+        <p></p>
     </form>
-    <p></p>
-    <form action="/mypwd" method="post">
-        <label>Odzyskaj hasło. Twój mail:</label>
-        <input name="mymail">
+    <form class="getback" action="/mypwd" method="post">
+        <label>Odzyskaj hasło:</label>
+        <br>
+        Twój email: <input name="mymail">
         <button>Prześlij</button>
     </form>
-    <div></div>
-    <a href="/log.html">Zaloguj się </a>
-    <a href=""></a>
-    <form action="/search" method="post">
-        <label>Wyszukiwarka stron</label>
+    <a class="log" href="/log.html">Zaloguj się </a>
+    <div class="user">Zobacz stronę losowo wybranego użytkownika: <a href=""></a></div>
+    <span></span>
+    <form class="search" action="/search" method="post">
+        <label>Wyszukiwarka stron:</label>
+        <br>
         <input name="search">
         <button>Szukaj</button>
     </form>
-    <P>Ostatnie wyszukiwanie:</P>
-    <div></div>
+    <P class="lastsearch">Ostatnie wyszukiwanie:</P>
+    <div class="links"></div>
     <div class="advertisement">
         <p>Reklama:</p>
         <a href="https://tmlead.pl/redirect/190176_2282">TaniaKsiążka.pl - księgarnia online</a>

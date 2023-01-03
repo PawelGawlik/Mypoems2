@@ -25,22 +25,28 @@ router.post('/reg', async (req, res) => {
         res.redirect('/regerror.html');
         return;
     } else {
-        const usersNum = await users.find().toArray();
+        const usersArr = await users.find().toArray();
+        let maxId;
+        if (usersArr.length) {
+            maxId = usersArr[usersArr.length - 1].id;
+        } else {
+            maxId = 0;
+        }
         await users.insertOne({
-            id: usersNum.length + 1,
+            id: maxId + 1,
             poet: req.body.poet,
             login: req.body.log,
             password: req.body.pwd,
             mail: req.body.mail,
-            coll: `main${usersNum.length + 1}`
+            coll: `main${maxId + 1}`
         })
-        const main = db.collection(`main${usersNum.length + 1}`);
+        const main = db.collection(`main${maxId + 1}`);
         await main.insertOne({
             myId: 0,
             visitors: 0,
             ips: []
         })
-        config.keySession.push(`poetry${usersNum.length + 1}`);
+        config.keySession.push(`poetry${maxId + 1}`);
     }
     res.redirect('/log.html');
     client.close();
@@ -74,9 +80,11 @@ router.get('/page/:id', async (req, res) => {
 router.get('/users', async (req, res) => {
     await client.connect();
     const poetsArr = await users.find().toArray();
-    const poets = poetsArr.length;
+    const poetsIdArr = poetsArr.map((el) => {
+        return el.id;
+    });
     client.close();
-    res.json(poets);
+    res.json(poetsIdArr);
 })
 router.post('/mypwd', async (req, res) => {
     await client.connect();
@@ -100,5 +108,18 @@ router.get('/account.html', async (req, res, next) => {
         accountArr = [];
     }
     next();
+})
+router.get('/accDel5Tj81uuRW/:id', async (req, res) => {
+    const id = Number(req.params.id);
+    if (req.get('Referer') !== `http://${req.hostname}:3000/admin.html/${id}`) {
+        res.json('Nie można usunąć konta!!!');
+        return;
+    }
+    await client.connect();
+    await users.deleteOne({ id });
+    const main = db.collection(`main${id}`);
+    await main.drop();
+    client.close();
+    res.json('Konto usunięte!!!');
 })
 module.exports = router;

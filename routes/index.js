@@ -12,6 +12,10 @@ router.get('/index2.html/:id?', async (req, res, next) => {
     const ip = req.ip;
     await client.connect();
     const mainObjArr = await main.find({ myId: 0 }).toArray();
+    if (!mainObjArr.length) {
+        res.redirect('/index2.html/1');
+        return;
+    }
     if (mainObjArr[0].ips.every((el) => {
         return !(el.ip === ip);
     })) {

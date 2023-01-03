@@ -194,6 +194,17 @@ input[name="hidden"] {
     cursor: pointer;
 }
 
+.accdel {
+    position: absolute;
+    left: 320px;
+    cursor: pointer;
+}
+
+.help {
+    position: absolute;
+    left: 440px;
+}
+
 @media all and (max-width: 550px) {
     body {
         height: 2000px;
@@ -278,7 +289,6 @@ input[name="hidden"] {
     .advertisement>a {
         font-size: 10px;
     }
-
 }
 
 @media all and (min-width: 351px) and (max-width: 400px) {

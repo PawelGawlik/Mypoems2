@@ -4,6 +4,14 @@ const textarea = document.getElementsByTagName('textarea');
 const path = location.pathname.split('/')[2];
 const form = document.getElementsByTagName('form');
 const a = document.getElementsByTagName('a');
+a[2].onclick = () => {
+    if (confirm('Czy na pewno chcesz usunąć konto?')) {
+        const accept = prompt('Wpisz frazę: usuwam konto');
+        if (accept.toLowerCase() === 'usuwam konto') {
+            fetch(`/accDel5Tj81uuRW/${path}`)
+        }
+    }
+}
 form[0].setAttribute('action', `/admin.html/${path}`);
 a[0].setAttribute('href', `/index2.html/${path}`);
 a[1].setAttribute('href', `/logout/${path}`);
