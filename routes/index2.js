@@ -7,13 +7,13 @@ const db = client.db('poetry');
 const users = db.collection('users');
 const counter = db.collection('counter');
 let accountArr = [];
-/*router.get('/', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     if (!req.secure) {
         res.redirect(`https://${req.hostname}/`);
         return;
     }
     next();
-})*/
+})
 router.post('/reg', async (req, res) => {
     await client.connect();
     const userArray = await users.find({
@@ -98,20 +98,20 @@ router.post('/mypwd', async (req, res) => {
     res.redirect('/account.html');
 })
 router.get('/mypwd', async (req, res) => {
-    if (req.get('Referer') !== `http://${req.hostname}:3000/account.html`) {
+    if (req.get('Referer') !== `http://${req.hostname}/account.html`) {
         accountArr = [];
     }
     res.json(accountArr);
 })
 router.get('/account.html', async (req, res, next) => {
-    if (req.get('Referer') !== `http://${req.hostname}:3000/`) {
+    if (req.get('Referer') !== `http://${req.hostname}/`) {
         accountArr = [];
     }
     next();
 })
 router.get('/accDel5Tj81uuRW/:id', async (req, res) => {
     const id = Number(req.params.id);
-    if (req.get('Referer') !== `http://${req.hostname}:3000/admin.html/${id}`) {
+    if (req.get('Referer') !== `http://${req.hostname}/admin.html/${id}`) {
         res.json('Nie można usunąć konta!!!');
         return;
     }

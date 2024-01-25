@@ -29,6 +29,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('*', (req, res) => {
     res.redirect('/error404.html');
 })
-/*app.use((error, req, res, next) => {
+app.use((error, req, res, next) => {
     res.redirect('/error500.html');
-})*/
+})
