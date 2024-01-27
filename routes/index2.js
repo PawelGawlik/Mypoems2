@@ -53,7 +53,7 @@ router.post('/reg', async (req, res) => {
 })
 let poetsArr2 = [];
 router.post('/search', async (req, res) => {
-    const reg = new RegExp(req.body.search.trim(), 'i');
+    const reg = new RegExp(`^${req.body.trim()}`, 'i');
     await client.connect();
     const poetsArr = await users.find().toArray();
     poetsArr2 = poetsArr.filter((el) => {

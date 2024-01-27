@@ -1,5 +1,6 @@
 {
     "env": {
-        "PORT": 3000
+        "PORT": 3000,
+        "MONGODB": "WlxY63%T1"
     }
 }
